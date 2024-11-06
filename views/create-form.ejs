@@ -3,28 +3,33 @@
   <section class="">
     <form action="/submit-post" method="POST" class="d-flex flex-column">
 
-      <!-- TITLE, SUBTITLE, & AUTHORS -->
-      <label for="book-title">
+      <!-- TITLE, SUBTITLE, AUTHORS, & ISBN -->
+      <label for="title" class="form-label">
         Book Title
       </label>
-      <input type="text" name="book-title" required />
+      <input type="text" name="title" class="form-control" required />
 
-      <label for="book-subtitle">
+      <label for="subtitle" class="form-label">
         Book Subtitle
       </label>
-      <input type="text" name="book-subtitle" />
+      <input type="text" name="subtitle" class="form-control" />
 
-      <label for="authors">
+      <label for="authors" class="form-label">
         Authors
       </label>
-      <input type="text" name="authors" />
+      <input type="text" name="authors" class="form-control" />
+
+      <label for="isbn" class="form-label">
+        ISBN
+      </label>
+      <input type="text" name="isbn" class="form-control" />
 
       <!-- STATUS : Radio (To Read / In Progress / Completed) -->
-      <span>
+      <span class="form-label">
         Status
       </span>
       <div class="">
-        <input type="radio" name="status" value="to-read" />
+        <input type="radio" name="status" value="to-read" checked />
         <label for="to-read">To Read</label>
         <input type="radio" name="status" value="reading" />
         <label for="to-read">Reading</label>
@@ -33,16 +38,27 @@
       </div>
 
       <!-- RATING : 1 ~ 10-->
-      <label for="rating">
+      <label for="rating" class="form-label">
         Rating (1~10)
       </label>
-      <input type="text" name="rating" />
+      <select name="rating">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
 
       <!-- CONTENT : TEXT BOX -->
-      <label for="content">
+      <label for="content" class="form-label">
         Your Notes & Review
       </label>
-      <input type="text" name="content" />
+      <textarea type="text" name="content" rows="10" class="form-control"></textarea>
 
       <hr>
 
