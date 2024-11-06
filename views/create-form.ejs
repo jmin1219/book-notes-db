@@ -1,0 +1,54 @@
+<%- include('partials/header.ejs') %>
+
+  <section class="">
+    <form action="/submit-post" method="POST" class="d-flex flex-column">
+
+      <!-- TITLE, SUBTITLE, & AUTHORS -->
+      <label for="book-title">
+        Book Title
+      </label>
+      <input type="text" name="book-title" required />
+
+      <label for="book-subtitle">
+        Book Subtitle
+      </label>
+      <input type="text" name="book-subtitle" />
+
+      <label for="authors">
+        Authors
+      </label>
+      <input type="text" name="authors" />
+
+      <!-- STATUS : Radio (To Read / In Progress / Completed) -->
+      <span>
+        Status
+      </span>
+      <div class="">
+        <input type="radio" name="status" value="to-read" />
+        <label for="to-read">To Read</label>
+        <input type="radio" name="status" value="reading" />
+        <label for="to-read">Reading</label>
+        <input type="radio" name="status" value="completed" />
+        <label for="to-read">Completed</label>
+      </div>
+
+      <!-- RATING : 1 ~ 10-->
+      <label for="rating">
+        Rating (1~10)
+      </label>
+      <input type="text" name="rating" />
+
+      <!-- CONTENT : TEXT BOX -->
+      <label for="content">
+        Your Notes & Review
+      </label>
+      <input type="text" name="content" />
+
+      <hr>
+
+      <input type="submit" value="Create">
+
+    </form>
+  </section>
+
+  <%- include('partials/footer.ejs') %>
