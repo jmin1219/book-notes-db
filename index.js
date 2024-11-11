@@ -20,21 +20,24 @@ const db = new pg.Client({
 db.connect();
 
 // BOOK COVER API ACCESS
-const API_KEY = "";
-const API_URL = "";
+const API_URL = "https://covers.openlibrary.org/b/isbn/";
+
+async function getBooks() {
+  const result = db.query();
+}
 
 // GET HOMEPAGE ie. LIBRARY CARD-VIEW
-app.get("/", (req, res) => {
-  res.render("library.ejs");
+app.get("/", async (req, res) => {
+  const data = await db.query(
+    "SELECT * FROM books JOIN posts ON posts.book_id = books.id"
+  );
+  res.render("library.ejs", { books: data.rows });
 });
 
 // GET CREATE POST FORM
 app.get("/new-post", (req, res) => {
   res.render("create-form.ejs");
 });
-
-// GET RECENT POSTS LIST (like D Sivers website)
-app.get("/posts-list", (req, res) => {});
 
 // GET BOOK POST
 app.get("/post/:id", (req, res) => {});
@@ -44,26 +47,24 @@ app.post("/edit-post/:id", (req, res) => {});
 
 // SUBMIT BOOK POST
 app.post("/submit-post", async (req, res) => {
-  // Add book info to book database
   try {
+    const coverUrl = API_URL + req.body.isbn + "-M.jpg";
     const book_result = await db.query(
-      "INSERT INTO books (title, subtitle, authors, status, rating, isbn) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+      "INSERT INTO books (title, subtitle, authors, status, rating, coverurl) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
       [
         req.body.title,
         req.body.subtitle,
         req.body.authors,
         req.body.status,
         req.body.rating,
-        req.body.isbn,
+        coverUrl,
       ]
     );
-    console.log(book_result.rows[0].id);
     const created_date = new Date().toJSON().slice(0, 10);
     const post_result = await db.query(
       "INSERT INTO posts (content, created, book_id) VALUES ($1, $2, $3)",
       [req.body.content, created_date, book_result.rows[0].id]
     );
-
     res.redirect("/");
   } catch (error) {
     console.error(error);
