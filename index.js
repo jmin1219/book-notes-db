@@ -56,13 +56,22 @@ app.get("/post/:id", async (req, res) => {
   }
 });
 
-// TODO EDIT BOOK POST (same as create post page but with info filled)
-app.post("/edit-post/:id", (req, res) => {});
+// EDIT BOOK POST (same as create post page but with info filled)
+app.get("/edit-post/:id", async (req, res) => {
+  try {
+    const postId = req.params.id.toString();
+    const data = await getBooksData();
+    const post = data.rows.find((post) => post.id.toString() === postId);
+    res.render("edit-form.ejs", { post: post });
+  } catch (error) {
+    console.error(`Failed to get post data: ${error}`);
+  }
+});
 
 // SUBMIT BOOK POST
 app.post("/submit-post", async (req, res) => {
   try {
-    const coverUrl = API_URL + req.body.isbn + "-M.jpg";
+    const coverUrl = API_URL + req.body.isbn + "-L.jpg";
     const book_result = await db.query(
       "INSERT INTO books (title, subtitle, authors, status, rating, coverurl) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
       [
@@ -85,8 +94,58 @@ app.post("/submit-post", async (req, res) => {
   }
 });
 
-// TODO DELETE BOOK POST
-app.post("/delete-post/:id", (req, res) => {});
+// SUBMIT POST EDITS
+app.post("/submit-edit/:id", async (req, res) => {
+  try {
+    const postId = req.params.id.toString();
+    const data = await getBooksData();
+    const udpatedDate = new Date().toJSON().slice(0, 10);
+    const edited_book = await db.query(
+      `
+      UPDATE books 
+      SET title = $1, subtitle = $2, authors = $3, status = $4, rating = $5
+      ${
+        req.body.isbn
+          ? ", coverurl = '" + API_URL + req.body.isbn + "-L.jpg'"
+          : ""
+      }
+      WHERE id = $6;
+      `,
+      [
+        req.body.title,
+        req.body.subtitle,
+        req.body.authors,
+        req.body.status,
+        req.body.rating,
+        postId,
+      ]
+    );
+    const edited_post = await db.query(
+      "UPDATE posts SET content = $1, updated = $2 WHERE book_id = $3",
+      [req.body.content, udpatedDate, postId]
+    );
+    res.redirect("/");
+  } catch (error) {
+    console.error(`Failed to save edits: ${error}`);
+  }
+});
+
+// DELETE BOOK POST
+app.post("/delete/:id", async (req, res) => {
+  try {
+    const postId = req.params.id.toString();
+    const result_posts = await db.query(
+      "DELETE FROM posts WHERE book_id = $1",
+      [postId]
+    );
+    const result_books = await db.query("DELETE FROM books WHERE id = $1", [
+      postId,
+    ]);
+    res.redirect("/");
+  } catch (error) {
+    console.error(`Error deleting book and post: ${error}`);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

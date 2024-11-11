@@ -1,0 +1,93 @@
+<%- include('partials/header.ejs') %>
+
+  <section class="container my-5">
+    <form action="/submit-edit/<%= post.id %>" method="POST" class="d-flex flex-column row-gap-3">
+
+      <!-- TITLE, SUBTITLE, AUTHORS, & ISBN -->
+      <div>
+        <label for="title" class="form-label lead">
+          Book Title
+        </label>
+        <input type="text" name="title" class="form-control" required value="<%= post.title %>" />
+      </div>
+
+      <div>
+        <label for="subtitle" class="form-label lead">
+          Book Subtitle
+        </label>
+        <input type="text" name="subtitle" class="form-control" value="<%= post.subtitle %>" />
+      </div>
+
+      <div>
+        <label for=" authors" class="form-label lead">
+          Authors
+        </label>
+        <input type="text" name="authors" class="form-control" value="<%= post.authors %>" />
+      </div>
+
+      <% if (!post.coverurl) { %>
+        <div>
+          <label for=" isbn" class="form-label lead">
+            ISBN
+          </label>
+          <input type="text" name="isbn" class="form-control" />
+        </div>
+        <% } %>
+
+          <!-- STATUS : Radio (To Read / In Progress / Completed) -->
+          <div class="d-flex flex-column row-gap-1">
+            <span class="form-label lead">
+              Status
+            </span>
+            <div class="d-flex flex-row column-gap-5">
+              <div>
+                <input type="radio" name="status" value="to-read" <%=post.status=='to-read' ? 'checked' : '' %> />
+                <label for="to-read">To Read</label>
+              </div>
+              <div>
+                <input type="radio" name="status" value="reading" <%=post.status=='reading' ? 'checked' : '' %>/>
+                <label for="to-read">Reading</label>
+              </div>
+              <div>
+                <input type="radio" name="status" value="completed" <%=post.status=='completed' ? 'checked' : '' %>/>
+                <label for="to-read">Completed</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- RATING : 1 ~ 10-->
+          <div class="d-flex flex-column row-gap-1">
+            <label for="rating" class="form-label lead">
+              Rating (1~10)
+            </label>
+            <select name="rating">
+              <option value="1" <%=post.rating==1 ? 'selected' : '' %>>1</option>
+              <option value="2" <%=post.rating==2 ? 'selected' : '' %>>2</option>
+              <option value="3" <%=post.rating==3 ? 'selected' : '' %>>3</option>
+              <option value="4" <%=post.rating==4 ? 'selected' : '' %>>4</option>
+              <option value="5" <%=post.rating==5 ? 'selected' : '' %>>5</option>
+              <option value="6" <%=post.rating==6 ? 'selected' : '' %>>6</option>
+              <option value="7" <%=post.rating==7 ? 'selected' : '' %>>7</option>
+              <option value="8" <%=post.rating==8 ? 'selected' : '' %>>8</option>
+              <option value="9" <%=post.rating==9 ? 'selected' : '' %>>9</option>
+              <option value="10" <%=post.rating==10 ? 'selected' : '' %>>10</option>
+            </select>
+          </div>
+
+          <!-- CONTENT : TEXT BOX -->
+          <div class="mt-3">
+            <label for="content" class="form-label lead">
+              Your Notes & Review
+            </label>
+            <textarea type="text" name="content" rows="10" class="form-control"><%= post.content %></textarea>
+          </div>
+
+
+          <button type="submit" class="btn btn-outline-primary mt-3">
+            Create
+          </button>
+
+    </form>
+  </section>
+
+  <%- include('partials/footer.ejs') %>
