@@ -31,8 +31,8 @@ This is a web application for managing book notes and reviews. Users can create,
 1. Clone the repository:
 
 ```sh
-git clone https://github.com/your-username/cp5-book-notes.git
-cd cp5-book-notes
+git clone https://github.com/your-username/book-notes-db.git
+cd book-notes-db
 ```
 
 2. Install dependencies
