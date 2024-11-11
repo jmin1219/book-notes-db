@@ -1,21 +1,22 @@
-import axios from "axios";
 import bodyParser from "body-parser";
+import dotenv from "dotenv";
 import express from "express";
 import pg from "pg";
+
+dotenv.config();
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
 // POSTGRESQL DATABASE
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "CP5-BookNotes",
-  password: "PGDtthtp!1",
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 db.connect();
 
@@ -24,7 +25,7 @@ const API_URL = "https://covers.openlibrary.org/b/isbn/";
 
 async function getBooksData() {
   const result = await db.query(
-    "SELECT * FROM books JOIN posts ON posts.book_id = books.id ORDER BY books.id ASC"
+    "SELECT * FROM books JOIN posts ON posts.book_id = books.id ORDER BY books.rating DESC"
   );
   return result;
 }
@@ -50,6 +51,7 @@ app.get("/post/:id", async (req, res) => {
     const postId = req.params.id.toString();
     const data = await getBooksData();
     const post = data.rows.find((post) => post.id.toString() === postId);
+
     res.render("post.ejs", { post: post });
   } catch (error) {
     console.error(`Failed to get book post data: ${error}`);

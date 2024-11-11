@@ -10,7 +10,7 @@
                 <!-- CARD IMAGE -->
                 <div class="card-img-top text-center border border-1 d-flex align-items-center justify-content-center"
                   style="height: 250px;">
-                  <img src="<%= book.coverurl %>" class="img-fluid mh-100 mw-100 object-fit-contain">
+                  <img src="<%= book.coverurl %>" class="img-fluid mh-100 mw-100 object-fit-contain border border-1">
                 </div>
 
                 <!-- CARD TEXT -->
@@ -22,7 +22,7 @@
                     By <%= book.authors %>
                   </p>
                   <!-- TODO Maybe add initial part of post content here -->
-                  <p class="card-text text-truncate d-block">
+                  <p class="card-text text-truncate d-block fw-light">
                     <%= book.content %>
                   </p>
 
