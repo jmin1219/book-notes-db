@@ -9,7 +9,6 @@ This is a web application for managing book notes and reviews. Users can create,
 - Edit existing book posts
 - Delete book posts
 
-![Uploading image.png…]()
 
 
 ## Project Structure
