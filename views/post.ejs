@@ -1,5 +1,61 @@
 <%- include('partials/header.ejs') %>
 
+  <% if (locals.post) { %>
+    <div class="container mt-4">
+      <section class="d-flex flex-row">
+        <figure class="mx-4" style="max-width: 250px;">
+          <img src="<%= post.coverurl %>" alt="<%= post.title %>" class="img-fluid">
+        </figure>
+        <div>
+          <button
+            class="btn btn-sm disabled fw-semibold
+              <%= post.status === 'reading' ? 'btn-outline-primary' : post.status === 'completed' ? 'btn-outline-success' : 'btn-outline-dark' %>">
+            <%= post.status.toUpperCase() %>
+          </button>
+          <h1>
+            <u>
+              <%= post.title %> : <%= post.subtitle %>
+            </u>
+          </h1>
+          <h3 class="text-body-secondary">
+            By <%= post.authors %>
+          </h3>
+          <% if (post.updated) { %>
+            <em>
+              Updated: <%= post.updated.toJSON().slice(0, 10) %>
+            </em>
+            <% } else { %>
+              <em>
+                Created: <%= post.created.toJSON().slice(0, 10) %>
+              </em>
+              <% } %>
+                <% if (post.status==="completed" ) { %>
+                  <div class="align-items-center">
+                    <span class="fw-semibold fs-6">Rating:</span>
+                    <button
+                      class="btn btn-sm disabled fw-semibold
+                      <%= post.rating > 7 ? 'btn-outline-success' : post.rating > 4 ? 'btn-outline-primary' : 'btn-outline-danger' %>">
+                      <%= post.rating %> / 10
+                    </button>
+                  </div>
+                  <% } %>
+        </div>
+      </section>
+
+      <hr />
+
+      <div>
+        <h3 class="lead fs-3">My Notes</h3>
+        <p>
+          <%= post.content %>
+        </p>
+      </div>
+    </div>
+
+    <% } else { %>
+      <h4>Post not found.</h4>
+
+      <% } %>
 
 
-  <%- include('partials/footer.ejs') %>
+        <%- include('partials/footer.ejs') %>

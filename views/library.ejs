@@ -1,7 +1,7 @@
 <%- include('partials/header.ejs') %>
   <% if (books) { %>
-    <div class="album d-flex justify-content-center">
-      <div class="my-1 mx-1 row row-cols-1 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 g-4">
+    <div class="album d-flex justify-content-center mx-3">
+      <div class="my-1 row row-cols-1 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 g-4">
         <% books.forEach((book)=> { %>
           <div class="col d-flex justify-content-center">
             <a href="/post/<%= book.id %>" class="text-decoration-none">
@@ -31,7 +31,7 @@
                     <button
                       class="btn btn-sm disabled fw-semibold
                         <%= book.status === 'reading' ? 'btn-outline-primary' : book.status === 'completed' ? 'btn-outline-success' : 'btn-outline-dark' %>">
-                      <%= book.status %>
+                      <%= book.status.toUpperCase() %>
                     </button>
                     <button
                       class="btn btn-sm disabled fw-semibold
